@@ -14,21 +14,21 @@ function addBookToLibrary(book) {
 function displayBooks() {
 
     // Creates "bookshelf" that will contain visual display of all books
-    bookshelf = document.getElementById("bookshelf");
+    let bookshelf = document.getElementById("bookshelf");
 
     // Loops through each book in library
     myLibrary.forEach(function(book) {
 
         // Creates a card (div) for the book and adds the right class to it
-        bookCard = document.createElement("div");
+        let bookCard = document.createElement("div");
         bookCard.classList.add("book-card");
 
         // Creates a list for the book, which will contain the book's properties
-        bookCardList = document.createElement("ul");
+        let bookCardList = document.createElement("ul");
 
         // Loops through the book's properties and adds each one to the list
         for (const property in book) {
-            propertyListItem = document.createElement("li");
+            let propertyListItem = document.createElement("li");
             propertyListItem.innerHTML = property.toUpperCase() + ": " + book[property];
 
             // Appends property to the book list
@@ -51,15 +51,20 @@ function activateNewBookButton() {
 }
 
 function createBookForm() {
-    formContainer = document.getElementById("form");
-    formContainer.querySelectorAll("input").forEach(input => input.remove());
-    bookTitleInput = document.createElement("input");
-    bookAuthorInput = document.createElement("input");
-    bookPagesInput = document.createElement("input");
-    bookReadInput = document.createElement("input");
+    let formContainer = document.getElementById("form");
 
-    // There must be some way to iterate through the above inputs and append them all so the code stays DRY
-    formContainer.appendChild(bookTitleInput);
+    // Clears div of all inputs before creating new ones
+    formContainer.querySelectorAll("input").forEach(input => input.remove());
+    
+    // Creates array of input field ids
+    let ids = ["title", "author", "pages", "read"]
+
+    // Creates and appends inputs with id from ids array
+    for (i = 0; i < ids.length; i++) {
+        let newInput = document.createElement("input")
+        newInput.classList.add(ids[i])
+        formContainer.appendChild(newInput);
+    }
 }
 
 // Creates books for demonstration
