@@ -45,13 +45,21 @@ function displayBooks() {
             bookCard.appendChild(bookCardList);
         }
 
+        let deleteButton = document.createElement("button");
+        deleteButton.innerHTML = "DELETE BOOK";
+        deleteButton.addEventListener("click", function() {
+            deleteBook(book);
+        });
+
+        bookCard.appendChild(deleteButton);
+
         // Appends book card to the bookshelf
         bookshelf.appendChild(bookCard);
 
     });
 }
 
-// Methods that facilitate creating new books
+// Methods that facilitate creating and destroying books
 
 function createBookForm() {
     
@@ -111,6 +119,12 @@ function clearBookForm() {
     formContainer.querySelectorAll("input").forEach(input => input.remove());
     formContainer.querySelectorAll("#submit").forEach(button => button.remove());
     formContainer.querySelectorAll("#label").forEach(label => label.remove());
+}
+
+function deleteBook(book) {
+    index = myLibrary.indexOf(book);
+    myLibrary.splice(index, 1);
+    displayBooks();
 }
 
 // Page setup methods
