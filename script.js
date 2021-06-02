@@ -45,12 +45,20 @@ function displayBooks() {
             bookCard.appendChild(bookCardList);
         }
 
+        // Adds mark as read button for book
+        let readButton = document.createElement("button");
+        readButton.innerHTML = "CHANGE READ STATUS";
+        readButton.addEventListener("click", function() {
+            toggleRead(book);
+        });
+        bookCard.appendChild(readButton);
+
+        // Adds delete button for book
         let deleteButton = document.createElement("button");
         deleteButton.innerHTML = "DELETE BOOK";
         deleteButton.addEventListener("click", function() {
             deleteBook(book);
         });
-
         bookCard.appendChild(deleteButton);
 
         // Appends book card to the bookshelf
@@ -59,7 +67,7 @@ function displayBooks() {
     });
 }
 
-// Methods that facilitate creating and destroying books
+// Methods that facilitate creating, modifying, and destroying books
 
 function createBookForm() {
     
@@ -124,6 +132,15 @@ function clearBookForm() {
 function deleteBook(book) {
     index = myLibrary.indexOf(book);
     myLibrary.splice(index, 1);
+    displayBooks();
+}
+
+function toggleRead(book) {
+    if (book.read == true) {
+        book.read = false;
+    } else {
+        book.read = true;
+    }
     displayBooks();
 }
 
