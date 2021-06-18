@@ -1,36 +1,51 @@
-let myLibrary = [];
+class Library {
+    constructor() { this.books = [] }
 
-// class Library {
-//     constructor() { books = [] }
+    addBook(book) { 
+        this.books.push(book);
+        this.displayBooks();
+    }
 
-//     addBook(book) { 
-//         this.books << book;
-//         this.displayBooks();
-//     }
-
-//     displayBooks() {
-//         let bookshelf = document.getElementById("bookshelf");
-//         bookshelf.innerHTML = "";
-//         // Loops through each book in library
-//         this.books.forEach(function(book) {
-//             // Creates a div for the book
-//             let bookCard = document.createElement("div");
-//             bookCard.classList.add("book-card");
-//             // Creates a list for the book, which will contain the book's properties
-//             let bookCardList = document.createElement("ul");
-//             // Loops through the book's properties and adds each one to the list
-//             for (const property in book) {
-//                 // Creates list item and populates its value
-//                 let propertyListItem = document.createElement("li");
-//                 propertyListItem.innerHTML = property.toLocaleUpperCase() + ": " + book[property];
-//                 // Appends list item to list
-//                 bookCardList.appendChild(propertyListItem);
-//                 // Appends list to book card
-//                 bookCard.appendChild(bookCardList);
-//             }
-//         });
-//     }
-// }
+    displayBooks() {
+        console.log(this.books);
+        let bookshelf = document.getElementById("bookshelf");
+        bookshelf.innerHTML = "";
+        // Loops through each book in library
+        this.books.forEach(function(book) {
+            // Creates a div for the book
+            let bookCard = document.createElement("div");
+            bookCard.classList.add("book-card");
+            // Creates a list for the book, which will contain the book's properties
+            let bookCardList = document.createElement("ul");
+            // Loops through the book's properties and adds each one to the list
+            for (const property in book) {
+                // Creates list item and populates its value
+                let propertyListItem = document.createElement("li");
+                propertyListItem.innerHTML = property.toLocaleUpperCase() + ": " + book[property];
+                // Appends list item to list
+                bookCardList.appendChild(propertyListItem);
+                // Appends list to book card
+                bookCard.appendChild(bookCardList);
+            }
+            // Adds 'change read status' button for book
+            let readButton = document.createElement("button");
+            readButton.innerHTML = "CHANGE READ STATUS";
+            readButton.addEventListener("click", function() {
+                toggleRead(book);
+            });
+            bookCard.appendChild(readButton);
+            // Adds delete button for book
+            let deleteButton = document.createElement("button");
+            deleteButton.innerHTML = "DELETE BOOK";
+            deleteButton.addEventListener("click", function() {
+                deleteBook(book);
+            });
+            bookCard.appendChild(deleteButton);
+            // Appends book card to the bookshelf
+            bookshelf.appendChild(bookCard);
+        });
+    }
+}
 
 class Book {
     constructor(title, author, pages,read) {
@@ -39,66 +54,6 @@ class Book {
         this.pages = pages
         this.read = read
     }
-}
-
-// Methods that facilitate adding book to library
-
-function addBookToLibrary(book) {
-    myLibrary.push(book);
-}
-
-// Methods that facilitate displaying book in library
-
-function displayBooks() {
-
-    let bookshelf = document.getElementById("bookshelf");
-
-    bookshelf.innerHTML = "";
-
-    // Loops through each book in library
-    myLibrary.forEach(function(book) {
-
-        // Creates a div for the book
-        let bookCard = document.createElement("div");
-        bookCard.classList.add("book-card");
-
-        // Creates a list for the book, which will contain the book's properties
-        let bookCardList = document.createElement("ul");
-
-        // Loops through the book's properties and adds each one to the list
-        for (const property in book) {
-
-            // Creates list item and populates its value
-            let propertyListItem = document.createElement("li");
-            propertyListItem.innerHTML = property.toLocaleUpperCase() + ": " + book[property];
-
-            // Appends list item to list
-            bookCardList.appendChild(propertyListItem);
-
-            // Appends list to book card
-            bookCard.appendChild(bookCardList);
-        }
-
-        // Adds mark as read button for book
-        let readButton = document.createElement("button");
-        readButton.innerHTML = "CHANGE READ STATUS";
-        readButton.addEventListener("click", function() {
-            toggleRead(book);
-        });
-        bookCard.appendChild(readButton);
-
-        // Adds delete button for book
-        let deleteButton = document.createElement("button");
-        deleteButton.innerHTML = "DELETE BOOK";
-        deleteButton.addEventListener("click", function() {
-            deleteBook(book);
-        });
-        bookCard.appendChild(deleteButton);
-
-        // Appends book card to the bookshelf
-        bookshelf.appendChild(bookCard);
-
-    });
 }
 
 // Methods that facilitate creating, modifying, and destroying books
@@ -192,9 +147,7 @@ function activateNewBookButton() {
 bookOne = new Book("20 Things to Know About Money in Your 20s", "Brandon-Richard Austin", 100, false);
 bookTwo = new Book("How to Fail At Everything and Still Win Big", "Scott Adams", 100, true);
 
-addBookToLibrary(bookOne);
-addBookToLibrary(bookTwo);
+let myLibrary = new Library();
 
-displayBooks();
-
-activateNewBookButton();
+myLibrary.addBook(bookOne);
+myLibrary.addBook(bookTwo);
