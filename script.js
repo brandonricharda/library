@@ -6,10 +6,16 @@ class Library {
         this.displayBooks();
     }
 
+    deleteBook(book) {
+        index = this.indexOf(book);
+        this.splice(index, 1);
+        this.displayBooks();
+    }
+
     displayBooks() {
-        console.log(this.books);
         let bookshelf = document.getElementById("bookshelf");
         bookshelf.innerHTML = "";
+        let library = this;
         // Loops through each book in library
         this.books.forEach(function(book) {
             // Creates a div for the book
@@ -38,7 +44,9 @@ class Library {
             let deleteButton = document.createElement("button");
             deleteButton.innerHTML = "DELETE BOOK";
             deleteButton.addEventListener("click", function() {
-                deleteBook(book);
+                let index = library.books.indexOf(book);
+                library.books.splice(index, 1);
+                library.displayBooks();
             });
             bookCard.appendChild(deleteButton);
             // Appends book card to the bookshelf
@@ -48,6 +56,14 @@ class Library {
 }
 
 const controller = (function() {
+    bookOne = new Book("20 Things to Know About Money in Your 20s", "Brandon-Richard Austin", 100, false);
+    bookTwo = new Book("How to Fail At Everything and Still Win Big", "Scott Adams", 100, true);
+
+    let myLibrary = new Library();
+
+    myLibrary.addBook(bookOne);
+    myLibrary.addBook(bookTwo);
+    
     return {
         createBookForm: function() {
             // Selects form div
@@ -84,14 +100,19 @@ const controller = (function() {
                 let read = document.getElementById("read").value;
                 // Creates new book using collected values
                 let newBook = new Book(title, author, pages, read);
-                console.log(newBook);
+                myLibrary.addBook(newBook);
+                // Clear the form field
+                formContainer.querySelectorAll("input").forEach(input => input.remove());
+                formContainer.querySelectorAll("#submit").forEach(button => button.remove());
+                formContainer.querySelectorAll("#label").forEach(label => label.remove());
             });
         },
-        clearBookForm: function() {
-            let formContainer = document.getElementById("form");
-            formContainer.querySelectorAll("input").forEach(input => input.remove());
-            formContainer.querySelectorAll("#submit").forEach(button => button.remove());
-            formContainer.querySelectorAll("#label").forEach(label => label.remove());
+        activateNewBookButton: function() {
+            newBookButton = document.getElementById("new-book-button");
+            functionOnClick = this.createBookForm;
+            newBookButton.addEventListener("click", function() {
+                functionOnClick();
+            });
         }
     }
 });
@@ -112,29 +133,8 @@ class Book {
     }
 }
 
-function deleteBook(book) {
-    index = myLibrary.indexOf(book);
-    myLibrary.splice(index, 1);
-    displayBooks();
-}
-
-
-
-// Page setup methods
-
-function activateNewBookButton() {
-    newBookButton = document.getElementById("new-book-button");
-    newBookButton.addEventListener("click", function() {
-        createBookForm();
-    });
-}
-
 // Demo setup methods
 
-bookOne = new Book("20 Things to Know About Money in Your 20s", "Brandon-Richard Austin", 100, false);
-bookTwo = new Book("How to Fail At Everything and Still Win Big", "Scott Adams", 100, true);
+let flowController = controller();
 
-let myLibrary = new Library();
-
-myLibrary.addBook(bookOne);
-myLibrary.addBook(bookTwo);
+flowController.activateNewBookButton();
