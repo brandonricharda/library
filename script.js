@@ -61,61 +61,44 @@ class Book {
             this.read = true;
         }
     }
-}
-
-// Methods that facilitate creating, modifying, and destroying books
-
-function createBookForm() {
-    
-    // Selects form div and clears it of all inputs and submit buttons before creating new ones
-    let formContainer = document.getElementById("form");
-    clearBookForm();
-    
-    // Creates array of input field ids
-    let ids = ["title", "author", "pages", "read"]
-
-    // Creates and appends inputs with id from ids array
-    for (i = 0; i < ids.length; i++) {
-        let newInput = document.createElement("input");
-        newInput.setAttribute("id", ids[i]);
-
-        if (ids[i] == "read") {
-            newInput.setAttribute("type", "checkbox");
-            let label = document.createElement("p");
-            label.innerHTML = "Read?";
-            label.setAttribute("id", "label");
-            formContainer.appendChild(label);
-        } else {
-            newInput.placeholder = ids[i];
+    createBookForm() {
+        // Selects form div
+        let formContainer = document.getElementById("form");
+        // Creates array of input field IDs
+        let ids = ["title", "author", "pages", "read"]
+        // Creates and appends inputs with ID from IDs array
+        for (i = 0; i < ids.length; i++) {
+            let newInput = document.createElement("input");
+            newInput.setAttribute("id", ids[i]);
+            // If the element to be created is the read input
+            // It needs some special care
+            if (ids[i] == "read") {
+                newInput.setAttribute("type", "checkbox");
+                let label = document.createElement("p");
+                label.innerHTML = "Read?";
+                label.setAttribute("id", "label");
+                formContainer.appendChild(label);
+            } else {
+                newInput.placeholder = ids[i];
+            }
+            formContainer.appendChild(newInput);
         }
-
-        formContainer.appendChild(newInput);
-    }
-
-    // Creates submit button for the new book form
-    let submitButton = document.createElement("button");
-    submitButton.innerHTML = "ADD BOOK";
-    submitButton.setAttribute("id", "submit")
-    formContainer.appendChild(submitButton);
-
-    submitButton.addEventListener("click", function() {
-
+        // Creates submit button for the new book form
+        let submitButton = document.createElement("button");
+        submitButton.innerHTML = "ADD BOOK";
+        submitButton.setAttribute("id", "submit")
+        formContainer.appendChild(submitButton);
         // Collects values from each of the form fields
-        let title = document.getElementById("title").value;
-        let author = document.getElementById("author").value;
-        let pages = document.getElementById("pages").value;
-        let read = document.getElementById("read").value;
-
-        // Creates new book using collected values
-        let newBook = new Book(title, author, pages, read);
-
-        // Calls method that adds new book to library
-        addBookToLibrary(newBook);
-        displayBooks();
-        clearBookForm();
-
-    });
-
+        submitButton.addEventListener("click", function() {
+            let title = document.getElementById("title").value;
+            let author = document.getElementById("author").value;
+            let pages = document.getElementById("pages").value;
+            let read = document.getElementById("read").value;
+            // Creates new book using collected values
+            let newBook = new Book(title, author, pages, read);
+            console.log(newBook);
+        });
+    }
 }
 
 function clearBookForm() {
