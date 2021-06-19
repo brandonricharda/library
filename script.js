@@ -31,7 +31,7 @@ class Library {
             let readButton = document.createElement("button");
             readButton.innerHTML = "CHANGE READ STATUS";
             readButton.addEventListener("click", function() {
-                toggleRead(book);
+                book.toggleRead();
             });
             bookCard.appendChild(readButton);
             // Adds delete button for book
@@ -53,6 +53,13 @@ class Book {
         this.author = author
         this.pages = pages
         this.read = read
+    }
+    toggleRead() {
+        if (this.read == true) {
+            this.read = false;
+        } else {
+            this.read = true;
+        }
     }
 }
 
@@ -124,14 +131,7 @@ function deleteBook(book) {
     displayBooks();
 }
 
-function toggleRead(book) {
-    if (book.read == true) {
-        book.read = false;
-    } else {
-        book.read = true;
-    }
-    displayBooks();
-}
+
 
 // Page setup methods
 
